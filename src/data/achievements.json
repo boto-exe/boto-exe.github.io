@@ -13,7 +13,8 @@
   "ctf": [
     { "event": "HTB Cyber Apocalypse 2026: The Salt Crown", "date": "Jul 2026", "result": "103rd of 6744 teams", "note": "Team RansomWeAre, 69,425 points, 136/136 challenges solved. Solved all four OSINT challenges." },
     { "event": "TCM Security x MetaCTF NOOB Village, DEF CON 2026", "date": "Aug 2026", "result": "All challenges solved", "note": "Solo run across crypto, forensics, malware analysis, OSINT, packet analysis and web in about 50 minutes." },
-    { "event": "Bits n' Bytes (by Perly Dahan)", "date": "Oct 2026", "result": "3rd of 121 Players", "note": "44/44 challenges solved." }
+    { "event": "Bits n' Bytes (by Perly Dahan)", "date": "Oct 2026", "result": "3rd of 121 Players", "note": "44/44 challenges solved." },
+    { "event": "Dirtbags & Flags", "date": "Aug 2026", "result": "47th of 221 Players", "note": "2766 points scored." }
   ],
   "rankings": [
     { "name": "HackTheBox", "result": "Top 250 global, Top 15 Egypt (active players)", "note": "Season 11 and Aero" }

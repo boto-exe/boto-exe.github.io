@@ -21,7 +21,6 @@ export const socials: Social[] = [
   { group: 'Profiles', label: 'GitHub', handle: 'boto-exe', href: 'https://github.com/boto-exe' },
   { group: 'Profiles', label: 'LinkedIn', handle: 'Mohamed Aboulfottouh', href: 'https://www.linkedin.com/in/mohamed-aboulfottouh-19086537a/' },
   { group: 'Profiles', label: 'Hack The Box', handle: 'botoo', href: 'https://app.hackthebox.com/public/users/3154018' },
-  { group: 'Profiles', label: 'TryHackMe', handle: 'Boto', href: 'https://tryhackme.com/p/Boto' },
   { group: 'Profiles', label: 'Bugcrowd', handle: 'botoo', href: 'https://bugcrowd.com/h/botoo' },
   // Community
   {

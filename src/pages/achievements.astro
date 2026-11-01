@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import data from '../data/achievements.json';
+const groups = [
+  { title: 'Certifications', rows: data.certifications.map((c) => ({ n: c.name, w: c.date, r: c.issuer, d: c.note })) },
+  { title: 'In progress', rows: data.inProgress.map((c) => ({ n: c.name, w: '', r: c.issuer, d: c.note })) },
+  { title: 'Labs and pro labs', rows: data.labs.map((c) => ({ n: c.name, w: c.date, r: c.issuer, d: c.note })) },
+  { title: 'CTF placements', rows: data.ctf.map((c) => ({ n: c.event, w: c.date, r: c.result, d: c.note })) },
+  { title: 'Rankings', rows: data.rankings.map((c) => ({ n: c.name, w: '', r: c.result, d: c.note })) },
+].filter((g) => g.rows.length);
+---
+<Base title="Achievements" description="Certifications, labs and CTF placements.">
+  <h1>Achievements</h1>
+  <p class="lede">Certifications, completed labs and CTF results.</p>
+  {groups.map((g) => (
+    <section>
+      <h2>{g.title}</h2>
+      <ul class="ach">
+        {g.rows.map((r) => (
+          <li><span class="n">{r.n}{r.w && <span class="when">{r.w}</span>}</span><span class="r">{r.r}</span>{r.d && <span class="d">{r.d}</span>}</li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>

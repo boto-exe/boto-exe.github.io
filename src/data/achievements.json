@@ -1,0 +1,20 @@
+{
+  "_note": "Edit this file to update /achievements. Remove the 'url' key if there is no public link.",
+  "inProgress": [
+    { "name": "CRTO (Red Team Ops)", "issuer": "Zero-Point Security", "note": "Studying for it. Moves to Certifications when passed." }
+  ],
+  "certifications": [
+  ],
+  "labs": [
+    { "name": "Mythical (Mini Pro Lab)", "issuer": "HackTheBox", "date": "Aug 2026", "note": "AD enumeration and attacks, AD CS, lateral movement, MSSQL attacks, C2 operations. 10 CPE credits." },
+    { "name": "Puppet (Mini Pro Lab)", "issuer": "HackTheBox", "date": "2026", "note": "DPAPI credential extraction, Sliver C2, PrintNightmare chain" },
+    { "name": "Hacker Holidays 2026: Byte Lotus", "issuer": "TryHackMe", "date": "Aug 2026", "note": "All 14 rooms completed" }
+  ],
+  "ctf": [
+    { "event": "HTB Cyber Apocalypse 2026: The Salt Crown", "date": "Jul 2026", "result": "103rd of 6744 teams", "note": "Team RansomWeAre, 69,425 points, 136/136 challenges solved. Solved all four OSINT challenges." },
+    { "event": "TCM Security x MetaCTF NOOB Village, DEF CON 2026", "date": "Aug 2026", "result": "All challenges solved", "note": "Solo run across crypto, forensics, malware analysis, OSINT, packet analysis and web in about 50 minutes." }
+  ],
+  "rankings": [
+    { "name": "HackTheBox", "result": "Top 250 global, Top 15 Egypt (active players)", "note": "Season 11 and Aero" }
+  ]
+}

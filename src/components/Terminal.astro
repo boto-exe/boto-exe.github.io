@@ -1,0 +1,41 @@
+---
+const base = import.meta.env.BASE_URL;
+const dirs = ['blog', 'achievements', 'connect'];
+---
+<div class="term" id="term" role="img" aria-label="Terminal running the id command: uid=1000(boto) gid=1000(boto) groups=1000(boto),1337(redteam)">
+  <div class="term-bar"><span>boto@redteam: ~</span><span>bash</span></div>
+  <div class="term-body" aria-hidden="true">
+    <p data-step="cmd"><span class="ps1">boto@redteam:~$ </span><i data-text="id">id</i></p>
+    <p class="out" data-step="out">uid=1000(boto) gid=1000(boto) groups=1000(boto),<span class="rt">1337(redteam)</span></p>
+    <p data-step="cmd"><span class="ps1">boto@redteam:~$ </span><i data-text="whoami">whoami</i></p>
+    <p class="out" data-step="out">boto</p>
+    <p data-step="cmd"><span class="ps1">boto@redteam:~$ </span><i data-text="ls">ls</i></p>
+    <p class="out ls" data-step="out">{dirs.map((d) => <a class="dir" href={`${base}${d}/`} tabindex="-1">{d}/</a>)}</p>
+    <p data-step="end"><span class="ps1">boto@redteam:~$ </span><span class="cursor"></span></p>
+  </div>
+</div>
+<script>
+  const root = document.getElementById('term');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (root && !reduce) {
+    const steps = Array.from(root.querySelectorAll<HTMLElement>('[data-step]'));
+    steps.forEach((s) => (s.hidden = true));
+    const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    (async () => {
+      for (const s of steps) {
+        const kind = s.dataset.step;
+        s.hidden = false;
+        if (kind === 'cmd') {
+          const el = s.querySelector<HTMLElement>('[data-text]')!;
+          const text = el.dataset.text || '';
+          el.textContent = '';
+          await wait(450);
+          for (const ch of text) { el.textContent += ch; await wait(70 + Math.random() * 60); }
+          await wait(280);
+        } else if (kind === 'out') {
+          await wait(120);
+        }
+      }
+    })();
+  }
+</script>

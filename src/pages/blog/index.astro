@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getAllPosts } from '../../lib/posts';
+const items = await getAllPosts();
+---
+<Base title="Blog" description="Writeups for retired HackTheBox machines and Hack Smarter Labs, plus the Malice series.">
+  <h1>Blog</h1>
+  <p class="lede">
+    Writeups for retired HackTheBox machines and Hack Smarter Labs, plus Malice, my series on malware development for adversary simulation.
+    Everything here comes from lab work or authorized testing.
+  </p>
+  <PostList items={items} empty="Nothing published yet." />
+</Base>

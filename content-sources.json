@@ -1,0 +1,14 @@
+{
+  "htb": {
+    "repo": "boto-exe/HTBWriteUps",
+    "out": "htb",
+    "requireStatus": "retired",
+    "public": false
+  },
+  "hsm": {
+    "repo": "boto-exe/HackSmarterLabs_WriteUps",
+    "out": "hsm",
+    "requireStatus": null,
+    "public": true
+  }
+}

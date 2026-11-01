@@ -1,0 +1,63 @@
+---
+import { sources, type Post } from '../lib/posts';
+interface Props { items: Post[]; empty: string; filter?: boolean; }
+const { items, empty, filter = true } = Astro.props;
+const diffs = [...new Set(items.map((i) => i.difficulty).filter(Boolean))] as string[];
+const present = Object.keys(sources).filter((s) => items.some((i) => i.source === s)) as (keyof typeof sources)[];
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+{items.length === 0 ? (
+  <p class="empty">{empty}</p>
+) : (
+  <>
+    {filter && items.length > 4 && (
+      <div class="filter">
+        <input type="search" id="q" placeholder="search title, tag, os" aria-label="Search posts" />
+        {present.length > 1 && (
+          <select id="src" aria-label="Filter by section">
+            <option value="">all sections</option>
+            {present.map((s) => <option value={s}>{sources[s].label}</option>)}
+          </select>
+        )}
+        {diffs.length > 0 && (
+          <select id="diff" aria-label="Filter by difficulty">
+            <option value="">any difficulty</option>
+            {diffs.map((d) => <option value={d.toLowerCase()}>{d}</option>)}
+          </select>
+        )}
+      </div>
+    )}
+    <ul class="rows" id="rows">
+      {items.map((p) => (
+        <li data-q={[p.title, p.os, ...p.tags].join(' ').toLowerCase()} data-diff={(p.difficulty ?? '').toLowerCase()} data-src={p.source}>
+          <a class="row" href={p.href}>
+            <span class="t">
+              {p.source === 'malice' && p.part !== undefined && <span class="part">pt.{String(p.part).padStart(2, '0')}</span>}
+              {p.title}
+              {p.difficulty && <span class={`badge ${p.difficulty.toLowerCase()}`}>{p.difficulty}</span>}
+            </span>
+            <span class="m"><span class={`src src-${p.source}`}>{sources[p.source].label}</span> {fmt(p.date)}</span>
+            {p.summary && <span class="s">{p.summary}</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </>
+)}
+<script>
+  const q = document.getElementById('q') as HTMLInputElement | null;
+  const d = document.getElementById('diff') as HTMLSelectElement | null;
+  const s = document.getElementById('src') as HTMLSelectElement | null;
+  const rows = Array.from(document.querySelectorAll<HTMLElement>('#rows > li'));
+  const apply = () => {
+    const t = (q?.value || '').toLowerCase().trim();
+    const df = d?.value || '';
+    const sc = s?.value || '';
+    rows.forEach((r) => {
+      r.hidden = !((!t || (r.dataset.q || '').includes(t)) && (!df || r.dataset.diff === df) && (!sc || r.dataset.src === sc));
+    });
+  };
+  q?.addEventListener('input', apply);
+  d?.addEventListener('change', apply);
+  s?.addEventListener('change', apply);
+</script>

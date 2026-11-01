@@ -1,0 +1,53 @@
+---
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/600.css';
+import '../styles/global.css';
+import { site, socials } from '../data/site';
+
+interface Props { title?: string; description?: string; }
+const { title, description = site.description } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const full = title ? `${title} | ${site.title}` : `${site.handle}@${site.host}`;
+const rel = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname;
+const path = '~/' + rel.replace(/\/$/, '');
+const section = rel.split('/')[0];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{full}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0c1218" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={full} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap">
+        <p class="prompt">
+          <a href={base}><span class="user">{site.handle}@{site.host}</span></a><span class="sym">:</span><span class="path">{path === '~/' ? '~' : path}</span><span class="sym">$</span><span class="cursor" aria-hidden="true"></span>
+        </p>
+        <nav class="nav" aria-label="Main">
+          {site.nav.map((n) => (
+            <a href={`${base}${n.path}`} aria-current={section === n.path.replace('/', '') ? 'page' : undefined}>{n.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+    <main><div class="wrap"><slot /></div></main>
+    <footer class="foot">
+      <div class="wrap">
+        <span>static site. no trackers, no cookies.</span>
+        <span>
+          {socials.filter((l) => l.href && l.group === 'Profiles').slice(0, 1).map((l) => <a href={l.href}>{l.label.toLowerCase()}</a>)} / <a href={`${base}connect/`}>connect</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

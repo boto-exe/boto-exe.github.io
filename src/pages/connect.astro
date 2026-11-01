@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import { socials } from '../data/site';
+const dev = import.meta.env.DEV;
+const groups = [...new Set(socials.map((s) => s.group))].map((g) => ({
+  title: g,
+  rows: socials.filter((s) => s.group === g && (dev || s.handle || s.href)),
+})).filter((g) => g.rows.length);
+---
+<Base title="Connect" description="Where to find me.">
+  <h1>Connect</h1>
+  <p class="lede">Where to find me.</p>
+  {groups.map((g) => (
+    <section>
+      <h2>{g.title}</h2>
+      <ul class="ach">
+        {g.rows.map((s) => {
+          const unset = !s.handle && !s.href;
+          const text = s.handle || s.href.replace(/^https?:\/\//, '');
+          return (
+            <li class={unset ? 'unset' : ''}>
+              <span class="n">{s.label}</span>
+              <span class="r">{unset ? 'not set' : s.href ? <a href={s.href}>{text}</a> : text}</span>
+              {s.note && <span class="d">{s.note}</span>}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  ))}
+</Base>

@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Terminal from '../components/Terminal.astro';
+import PostList from '../components/PostList.astro';
+import { site } from '../data/site';
+import { getAllPosts } from '../lib/posts';
+const base = import.meta.env.BASE_URL;
+const latest = (await getAllPosts()).slice(0, 5);
+---
+<Base description={site.description}>
+  <h1>whoami</h1>
+  <Terminal />
+
+  <div class="intro">
+    <p>
+      I'm Mohamed, a second year cybersecurity student at Alexandria University. I started teaching myself offensive security in August 2025 and my goal is to become a highly-skilled red team operator.
+      Right now I work on Active Directory, C2, binary exploitation and malware development for adversary simulation.
+    </p>
+    <p>
+      This blog has my writeups for retired HackTheBox machines and Hack Smarter Labs, and a series called Malice where I write up what I learn building tools for adversary simulation.
+    </p>
+  </div>
+
+  <h2>Latest posts</h2>
+  <PostList items={latest} empty="No posts yet." filter={false} />
+  <p><a href={`${base}blog/`}>All posts</a></p>
+</Base>

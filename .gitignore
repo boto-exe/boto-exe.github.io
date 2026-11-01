@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.sync-tmp/
+# Synced at build time from other repos. Never commit these.
+src/content/htb/*
+src/content/hsm/*
+!src/content/htb/.gitkeep
+!src/content/hsm/.gitkeep
+public/writeup-assets/
+.env
+README.md

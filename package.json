@@ -1,0 +1,24 @@
+{
+  "name": "boto-site",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "sync": "node scripts/sync-writeups.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:full": "node scripts/sync-writeups.mjs && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans": "^5.1.0",
+    "@fontsource/jetbrains-mono": "^5.1.0",
+    "astro": "^7.4.4"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  }
+}

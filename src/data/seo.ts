@@ -4,7 +4,7 @@ export const seo = {
   authorName: 'Mohamed',
   // From Google Search Console > Settings > Ownership verification > HTML tag.
   // Paste only the content value, the long string after content=
-  googleVerification: '',
+  googleVerification: 'ucfSJ8SAIyzwdEygv2xrMS5cs2PwHupZmCGZRqw0YJg',
   // From Bing Webmaster Tools, same idea.
   bingVerification: '',
 };

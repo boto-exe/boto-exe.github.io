@@ -5,14 +5,24 @@ import '@fontsource/ibm-plex-sans/400.css';
 import '@fontsource/ibm-plex-sans/600.css';
 import '../styles/global.css';
 import { site, socials } from '../data/site';
+import { seo } from '../data/seo';
 
-interface Props { title?: string; description?: string; }
-const { title, description = site.description } = Astro.props;
+interface Props { title?: string; description?: string; type?: 'website' | 'article'; date?: Date; }
+const { title, description = site.description, type = 'website', date } = Astro.props;
 const base = import.meta.env.BASE_URL;
-const full = title ? `${title} | ${site.title}` : `${site.handle}@${site.host}`;
+const full = title ? `${title} | ${site.title}` : `${site.title} | ${seo.tagline}`;
 const rel = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname;
 const path = '~/' + rel.replace(/\/$/, '');
 const section = rel.split('/')[0];
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const image = new URL(`${base}pfp.jpg`, Astro.site).href;
+const sameAs = socials.filter((x) => x.href && !x.href.startsWith('mailto:')).map((x) => x.href);
+const person = { '@type': 'Person', name: seo.authorName, alternateName: site.handle, url: new URL(base, Astro.site).href, image, sameAs };
+const ld = type === 'article'
+  ? { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: title, description, url, datePublished: date?.toISOString(), author: person }
+  : rel === ''
+    ? { '@context': 'https://schema.org', '@graph': [{ '@type': 'WebSite', name: site.title, url: new URL(base, Astro.site).href, description: site.description }, person] }
+    : null;
 const gh = socials.find((s) => s.label === 'GitHub' && s.href);
 
 // Floating red particles. Fixed numbers so every build looks the same.
@@ -36,9 +46,18 @@ const dots = Array.from({ length: 24 }, (_, i) => {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#050507" />
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={url} />
+    <link rel="sitemap" href={`${base}sitemap.xml`} />
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={url} />
     <meta property="og:title" content={full} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary" />
+    {seo.googleVerification && <meta name="google-site-verification" content={seo.googleVerification} />}
+    {seo.bingVerification && <meta name="msvalidate.01" content={seo.bingVerification} />}
+    {ld && <script type="application/ld+json" set:html={JSON.stringify(ld)} />}
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>

@@ -23,7 +23,7 @@ const d = post.data;
 const label = sources[source as keyof typeof sources].label;
 const chips = [source === 'malice' ? `part ${d.part}` : '', d.difficulty, d.os, ...(d.tags ?? [])].filter(Boolean) as string[];
 ---
-<Base title={`${label} : ${d.title}`} description={d.summary}>
+<Base title={`${label} : ${d.title}`} description={d.summary} type="article" date={d.date}>
   <Article title={d.title} label={label} labelClass={`src-${source}`} date={d.date} chips={chips} back={{ href: `${base}blog/`, label: 'Blog' }}>
     <Content />
     {source === 'malice' && (

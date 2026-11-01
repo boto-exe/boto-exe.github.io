@@ -32,11 +32,10 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
         <li data-q={[p.title, p.os, ...p.tags].join(' ').toLowerCase()} data-diff={(p.difficulty ?? '').toLowerCase()} data-src={p.source}>
           <a class="row" href={p.href}>
             <span class="t">
-              {p.source === 'malice' && p.part !== undefined && <span class="part">pt.{String(p.part).padStart(2, '0')}</span>}
-              {p.title}
+              <span class={`lab src-${p.source}`}>{sources[p.source].label}</span><span class="sep">{' : '}</span>{p.title}
               {p.difficulty && <span class={`badge ${p.difficulty.toLowerCase()}`}>{p.difficulty}</span>}
             </span>
-            <span class="m"><span class={`src src-${p.source}`}>{sources[p.source].label}</span> {fmt(p.date)}</span>
+            <span class="m">{[p.part !== undefined ? `pt.${String(p.part).padStart(2, '0')}` : '', p.os, fmt(p.date)].filter(Boolean).join(' / ')}</span>
             {p.summary && <span class="s">{p.summary}</span>}
           </a>
         </li>

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
 import Article from '../../../components/Article.astro';
+import { sources } from '../../../lib/posts';
 
 export async function getStaticPaths() {
   const htb = (await getCollection('htb')).map((post) => ({ params: { source: 'htb', slug: post.id }, props: { post, source: 'htb' } }));
@@ -19,11 +20,11 @@ const { post, source, prev, next } = Astro.props as any;
 const { Content } = await render(post);
 const base = import.meta.env.BASE_URL;
 const d = post.data;
-const label = { htb: 'HTB', hsm: 'Hack Smarter Labs', malice: `Malice part ${d.part}` }[source as string];
-const chips = [label, d.difficulty, d.os, ...(d.tags ?? [])].filter(Boolean) as string[];
+const label = sources[source as keyof typeof sources].label;
+const chips = [source === 'malice' ? `part ${d.part}` : '', d.difficulty, d.os, ...(d.tags ?? [])].filter(Boolean) as string[];
 ---
-<Base title={d.title} description={d.summary}>
-  <Article title={d.title} date={d.date} chips={chips} back={{ href: `${base}blog/`, label: 'Blog' }}>
+<Base title={`${label} : ${d.title}`} description={d.summary}>
+  <Article title={d.title} label={label} labelClass={`src-${source}`} date={d.date} chips={chips} back={{ href: `${base}blog/`, label: 'Blog' }}>
     <Content />
     {source === 'malice' && (
       <nav slot="after" class="pager" aria-label="Series">

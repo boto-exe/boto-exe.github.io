@@ -7,11 +7,12 @@
 //
 // Auth: set CONTENT_PAT (fine-grained token, Contents: read-only on those repos).
 // Local testing without a token: HTB_LOCAL_DIR=/path/to/repo HSM_LOCAL_DIR=/path/to/repo
-import { fileURLToPath } from 'node:url';
+
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');

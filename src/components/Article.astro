@@ -1,10 +1,10 @@
 ---
-interface Props { title: string; date: Date; back: { href: string; label: string }; chips?: string[]; }
-const { title, date, back, chips = [] } = Astro.props;
+interface Props { title: string; date: Date; back: { href: string; label: string }; chips?: string[]; label?: string; labelClass?: string; }
+const { title, date, back, chips = [], label, labelClass = '' } = Astro.props;
 ---
 <a class="back" href={back.href}>cd ..  <span style="color:var(--dim)">{back.label}</span></a>
 <article class="article">
-  <h1>{title}</h1>
+  <h1>{label && <><span class={`lab ${labelClass}`}>{label}</span><span class="sep">{' : '}</span></>}{title}</h1>
   <p class="meta">
     <time datetime={date.toISOString()}>{date.toISOString().slice(0, 10)}</time>
     {chips.map((c) => <span>{c}</span>)}

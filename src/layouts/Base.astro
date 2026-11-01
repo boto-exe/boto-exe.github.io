@@ -13,6 +13,19 @@ const full = title ? `${title} | ${site.title}` : `${site.handle}@${site.host}`;
 const rel = Astro.url.pathname.startsWith(base) ? Astro.url.pathname.slice(base.length) : Astro.url.pathname;
 const path = '~/' + rel.replace(/\/$/, '');
 const section = rel.split('/')[0];
+const gh = socials.find((s) => s.label === 'GitHub' && s.href);
+
+// Floating red particles. Fixed numbers so every build looks the same.
+const dots = Array.from({ length: 24 }, (_, i) => {
+  const r = (n: number) => { const x = Math.sin(i * 977 + n * 131) * 10000; return x - Math.floor(x); };
+  return {
+    l: (r(1) * 100).toFixed(1),
+    s: (1.5 + r(2) * 2.5).toFixed(1),
+    d: (16 + r(3) * 24).toFixed(1),
+    dl: (-r(4) * 36).toFixed(1),
+    x: ((r(5) - 0.5) * 80).toFixed(0),
+  };
+});
 ---
 <!doctype html>
 <html lang="en">
@@ -21,13 +34,25 @@ const section = rel.split('/')[0];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{full}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0c1218" />
+    <meta name="theme-color" content="#050507" />
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={full} />
     <meta property="og:description" content={description} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>
+    <div class="bg" aria-hidden="true">
+      <div class="bg-grid"></div>
+      <div class="bg-ring r1"></div>
+      <div class="bg-ring r2"></div>
+      <div class="bg-ring r3"></div>
+      {dots.map((d) => <span class="dot" style={`--l:${d.l}%;--s:${d.s}px;--d:${d.d}s;--dl:${d.dl}s;--x:${d.x}px`}></span>)}
+      <div class="bg-noise"></div>
+      <div class="bg-vig"></div>
+    </div>
+    <div class="edge" aria-hidden="true">boto // adversary simulation</div>
+
     <header class="top">
       <div class="wrap">
         <p class="prompt">
@@ -44,10 +69,27 @@ const section = rel.split('/')[0];
     <footer class="foot">
       <div class="wrap">
         <span>static site. no trackers, no cookies.</span>
-        <span>
-          {socials.filter((l) => l.href && l.group === 'Profiles').slice(0, 1).map((l) => <a href={l.href}>{l.label.toLowerCase()}</a>)} / <a href={`${base}connect/`}>connect</a>
-        </span>
+        <span>{gh && <><a href={gh.href}>github</a> / </>}<a href={`${base}connect/`}>connect</a></span>
       </div>
     </footer>
+
+    <script>
+      // Fade-in on scroll. The hidden state only applies when JS is running (html.js).
+      const sel = 'main .wrap > :not(.hero):not(.rows):not(.ach), .rows > li';
+      const els = Array.from(document.querySelectorAll<HTMLElement>(sel));
+      els.forEach((el) => {
+        const idx = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
+        el.style.setProperty('--n', String(Math.min(idx, 8)));
+      });
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        els.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        els.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>

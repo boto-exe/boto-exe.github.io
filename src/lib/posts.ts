@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 
 export const sources = {
   htb: { label: 'HTB' },
-  hsm: { label: 'Hack Smarter Labs' },
+  hsm: { label: 'Hack Smarter' },
   malice: { label: 'Malice' },
 } as const;
 export type Source = keyof typeof sources;
